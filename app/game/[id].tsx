@@ -127,13 +127,13 @@ export default function Page() {
 
     if (isWishlisted) {
       updatedWishlists.lists = updatedWishlists.lists.filter(
-        (item) => item.link !== link
+        (item) => item.id !== id
       );
     } else {
       updatedWishlists.lists.push({
         image: data.gameDetails["image"],
         title: data.gameDetails["title"],
-        link: data.gameDetails["eshopLink"],
+        id: id,
       });
     }
 

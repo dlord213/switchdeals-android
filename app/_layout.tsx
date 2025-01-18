@@ -38,7 +38,6 @@ export default function Layout() {
     storage.set("wishlists", JSON.stringify({ lists: [] }));
   }
 
-
   return (
     <QueryClientProvider client={client}>
       <Tabs>
