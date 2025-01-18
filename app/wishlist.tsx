@@ -1,7 +1,7 @@
 import { storage } from "@/stores/storage";
+import useTheme from "@/stores/useTheme";
 import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { useEffect } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -14,18 +14,26 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Page() {
+  const { theme, palette } = useTheme();
   const { width, height } = useWindowDimensions();
   const json = storage.getString("wishlists");
   const wishlists = json ? JSON.parse(json) : "{}";
 
   if (wishlists.lists.length >= 1) {
     return (
-      <SafeAreaView style={{ flex: 1, paddingHorizontal: 16, gap: 8 }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          padding: 16,
+          gap: 8,
+          backgroundColor: palette.background,
+        }}
+      >
         <Text
           style={{
             fontFamily: "NunitoSans_900Black",
             fontSize: 24,
-            color: "#363636",
+            color: palette.text,
           }}
         >
           Wishlists
@@ -57,6 +65,7 @@ export default function Page() {
                         fontFamily: "NunitoSans_400Regular",
                         flexShrink: 1,
                         flexWrap: "wrap",
+                        color: palette.text,
                       }}
                     >
                       {game.item["title"]}
@@ -86,8 +95,10 @@ export default function Page() {
         alignItems: "center",
       }}
     >
-      <AntDesign name="meh" size={width / 8} color="#484848" />
-      <Text style={{ fontFamily: "NunitoSans_700Bold", color: "#363636" }}>No wishlists...</Text>
+      <AntDesign name="meh" size={width / 8} color={palette.text} />
+      <Text style={{ fontFamily: "NunitoSans_700Bold", color: palette.text }}>
+        No wishlists...
+      </Text>
     </SafeAreaView>
   );
 }

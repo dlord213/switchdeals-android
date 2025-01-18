@@ -13,10 +13,12 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "expo-router";
+import useTheme from "@/stores/useTheme";
 
 export default function Page() {
   const [query, setQuery] = useState("");
   const { width, height } = useWindowDimensions();
+  const { palette } = useTheme();
 
   const { data, refetch } = useQuery({
     queryKey: ["search"],
@@ -36,26 +38,33 @@ export default function Page() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16, gap: 8 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        padding: 16,
+        gap: 8,
+        backgroundColor: palette.background,
+      }}
+    >
       <View style={{ position: "relative", justifyContent: "center" }}>
         <AntDesign
           name="search1"
           size={24}
-          color="#484848"
+          color={palette.text}
           style={{ position: "absolute", zIndex: 10, left: 16 }}
         />
         <TextInput
           style={{
             borderColor: "#fefefe",
-            borderWidth: 1,
-            backgroundColor: "#f2f2f2",
+            backgroundColor: palette.searchInputColor,
             padding: 16,
             fontFamily: "NunitoSans_400Regular",
             borderRadius: 16,
             paddingLeft: 48,
+            color: palette.text,
           }}
           numberOfLines={1}
-          selectionColor="#B03B48"
+          selectionColor={palette.text}
           enterKeyHint="search"
           value={query}
           onChangeText={setQuery}
@@ -93,6 +102,7 @@ export default function Page() {
                           fontFamily: "NunitoSans_400Regular",
                           flexShrink: 1,
                           flexWrap: "wrap",
+                          color: palette.text,
                         }}
                       >
                         {game.item["productTitle"]}
@@ -108,6 +118,7 @@ export default function Page() {
                           style={{
                             fontFamily: "NunitoSans_700Bold",
                             flexShrink: 1,
+                            color: palette.text,
                           }}
                         >
                           {game.item["price"]}
@@ -142,7 +153,7 @@ export default function Page() {
             style={{
               fontFamily: "NunitoSans_700Bold",
               fontSize: 20,
-              color: "#484848",
+              color: palette.text,
             }}
           >
             Search some games...
