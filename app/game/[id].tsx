@@ -18,12 +18,14 @@ import { useEffect, useState } from "react";
 import ChipButton from "@/components/ChipButton";
 import { AntDesign } from "@expo/vector-icons";
 import { storage } from "@/stores/storage";
+import useTheme from "@/stores/useTheme";
 
 export default function Page() {
   const { id } = useLocalSearchParams();
   const { width, height } = useWindowDimensions();
   const [wishlists, setWishlists] = useState({ lists: [] });
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { theme, palette } = useTheme();
 
   const { data } = useQuery({
     queryKey: [id],
@@ -44,7 +46,9 @@ export default function Page() {
   const [index, setIndex] = useState(0);
   const pages = [
     <>
-      <Text style={{ fontFamily: "NunitoSans_400Regular" }}>
+      <Text
+        style={{ fontFamily: "NunitoSans_400Regular", color: palette.text }}
+      >
         {data?.gameDetails["description"] || ""}
       </Text>
     </>,
@@ -99,7 +103,7 @@ export default function Page() {
               <Text
                 style={{
                   fontFamily: "NunitoSans_400Regular",
-                  color: "#484848",
+                  color: palette.text,
                   flexShrink: 1,
                 }}
               >
@@ -151,7 +155,13 @@ export default function Page() {
 
   if (data) {
     return (
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 12, gap: 12 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 12,
+          gap: 12,
+          backgroundColor: palette.background,
+        }}
+      >
         <Image
           src={data.gameDetails["image"]}
           style={{ width: "auto", height: height / 4, borderRadius: 8 }}
@@ -161,7 +171,7 @@ export default function Page() {
             style={{
               fontFamily: "NunitoSans_900Black",
               fontSize: width / 14,
-              color: "#363636",
+              color: palette.text,
             }}
           >
             {data.gameDetails["title"]}
@@ -171,7 +181,7 @@ export default function Page() {
               style={{
                 fontFamily: "NunitoSans_400Regular",
                 fontSize: width / 24,
-                color: "#363636",
+                color: palette.text,
               }}
             >
               {data.gameDetails["Publisher"][0]["genreName"]}
@@ -183,7 +193,7 @@ export default function Page() {
                 style={{
                   fontFamily: "NunitoSans_700Bold",
                   fontSize: width / 24,
-                  color: "#363636",
+                  color: palette.text,
                 }}
               >
                 {data.gameDetails["discountedPrice"]}
@@ -218,7 +228,7 @@ export default function Page() {
           <AntDesign
             name={isWishlisted ? "heart" : "hearto"}
             size={width / 15}
-            color="#484848"
+            color={palette.text}
             onPress={toggleWishlist}
           />
         </View>
@@ -256,9 +266,10 @@ export default function Page() {
           gap: 8,
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: palette.background,
         }}
       >
-        <ActivityIndicator color="#B03B48" size={36} />
+        <ActivityIndicator color={palette.text} size={48} />
       </SafeAreaView>
     );
   }

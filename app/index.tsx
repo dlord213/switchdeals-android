@@ -65,19 +65,6 @@ export default function Index() {
         >
           Discounts/Deals
         </Text>
-        <AntDesign
-          name="bulb1"
-          size={20}
-          onPress={() => {
-            if (theme == "light") {
-              setTheme("dark");
-            }
-            if (theme == "dark") {
-              setTheme("light");
-            }
-          }}
-          color={palette.foreground}
-        />
       </View>
       <View style={{ flexDirection: "row", gap: 8 }}>
         <ChipButton label="Game" isActive={!type} onPress={() => setType("")} />
