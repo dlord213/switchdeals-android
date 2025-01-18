@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "switchdeals-android",
-    "slug": "switchdeals-android",
-    "version": "1.0.0",
+    "name": "SwitchDeals",
+    "slug": "SwitchDeals",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.switchdealsandroid"
     },
     "web": {
       "bundler": "metro",
