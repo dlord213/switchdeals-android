@@ -93,6 +93,7 @@ export default function Page() {
         gap: 8,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: palette.background,
       }}
     >
       <AntDesign name="meh" size={width / 8} color={palette.text} />
