@@ -11,14 +11,13 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import ChipButton from "@/components/ChipButton";
 import useTheme from "@/stores/useTheme";
 
 export default function Index() {
   const { width, height } = useWindowDimensions();
-  const { theme, palette, setTheme } = useTheme();
+  const { palette } = useTheme();
 
   const [type, setType] = useState("");
 

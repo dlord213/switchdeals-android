@@ -16,6 +16,7 @@ import { storage } from "@/stores/storage";
 import useTheme from "@/stores/useTheme";
 import { Colors } from "@/types/Colors";
 import { StatusBar } from "expo-status-bar";
+import * as NavigationBar from "expo-navigation-bar";
 
 const client = new QueryClient();
 
@@ -39,8 +40,10 @@ export default function Layout() {
   useEffect(() => {
     if (colorScheme == "dark") {
       setTheme("dark");
+      NavigationBar.setBackgroundColorAsync(palette.background);
     } else {
       setTheme("light");
+      NavigationBar.setBackgroundColorAsync(palette.foreground);
     }
   }, [colorScheme]);
 
@@ -56,7 +59,7 @@ export default function Layout() {
 
   return (
     <QueryClientProvider client={client}>
-      <Tabs>
+      <Tabs style={{ flex: 1, backgroundColor: palette.background }}>
         <TabSlot />
         <TabList style={styleTheme.tabList}>
           <TabTrigger name="index" href="/" asChild>
