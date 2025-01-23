@@ -1,6 +1,4 @@
-import axios from "axios";
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -11,22 +9,24 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import axios from "axios";
+
+import { useQuery } from "@tanstack/react-query";
 
 import ChipButton from "@/components/ChipButton";
+import useTheme from "@/stores/useTheme";
 import { AntDesign } from "@expo/vector-icons";
 import { storage } from "@/stores/storage";
-import useTheme from "@/stores/useTheme";
 
 export default function Page() {
   const { id } = useLocalSearchParams();
   const { width, height } = useWindowDimensions();
-  const [wishlists, setWishlists] = useState({ lists: [] });
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const { theme, palette } = useTheme();
+  const [wishlists, setWishlists] = useState({ lists: [] }); // this state is for rendering it on the component and is based on the MMKV "wishlists" key storage
+  const [isWishlisted, setIsWishlisted] = useState(false); // this state is to check whether it's wishlisted or not and for rendering the appropriate icon
+  const { palette } = useTheme();
 
+  // a query hook that fetches game's data
   const { data } = useQuery({
     queryKey: [id],
     queryFn: async () => {
@@ -43,7 +43,7 @@ export default function Page() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(0); // this state is for displaying pages based on its index
   const pages = [
     <>
       <Text
@@ -114,8 +114,9 @@ export default function Page() {
         ))}
       </View>
     </>,
-  ];
+  ]; // here lies the components and will return the appropriate component based on "index" state above
 
+  // this hook is to check if the game is wishlisted or not
   useEffect(() => {
     if (!storage.contains("wishlists")) {
       storage.set("wishlists", JSON.stringify({ lists: [] }));
@@ -126,6 +127,7 @@ export default function Page() {
     setWishlists(parsedWishlists);
   }, []);
 
+  // this function is to toggle wishlist
   const toggleWishlist = async () => {
     let updatedWishlists = { ...wishlists };
 

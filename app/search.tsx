@@ -16,10 +16,11 @@ import { Link } from "expo-router";
 import useTheme from "@/stores/useTheme";
 
 export default function Page() {
-  const [query, setQuery] = useState("");
   const { width, height } = useWindowDimensions();
   const { palette } = useTheme();
+  const [query, setQuery] = useState(""); // this state is for search queries
 
+  // a query hook for fetching data based on the "query" state above
   const { data, refetch } = useQuery({
     queryKey: ["search"],
     queryFn: async () => {

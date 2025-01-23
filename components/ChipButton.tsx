@@ -6,18 +6,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const ChipButton = ({
-  label,
-  isActive,
-  onPress,
-}: {
+// props interface for the button
+interface ChipButtonInterface {
   label: string;
   isActive: boolean;
   onPress: () => void;
-}) => {
+}
+
+const ChipButton = ({ label, isActive, onPress }: ChipButtonInterface) => {
   const { theme } = useTheme();
 
-  const darkThemeViewStyle = useAnimatedStyle(() => ({
+  // animated view stylesheet for dark system theme
+  const chipDarkViewStyle = useAnimatedStyle(() => ({
     backgroundColor: isActive
       ? withTiming("#363636", { duration: 500 })
       : withTiming("#161616"),
@@ -28,6 +28,7 @@ const ChipButton = ({
     borderRadius: 16,
   }));
 
+  // animated view stylesheet for light system theme
   const chipLightViewStyle = useAnimatedStyle(() => ({
     backgroundColor: isActive
       ? withTiming("#B03B48", { duration: 500 })
@@ -39,11 +40,13 @@ const ChipButton = ({
     borderRadius: 16,
   }));
 
+  // animated text stylesheet for light system theme
   const chipLightTextStyle = useAnimatedStyle(() => ({
     color: isActive ? withTiming("white") : withTiming("#B03B48"),
     fontFamily: "NunitoSans_400Regular",
   }));
 
+  // animated text stylesheet for dark system theme
   const chipDarkTextStyle = useAnimatedStyle(() => ({
     color: isActive ? withTiming("white") : withTiming("white"),
     fontFamily: "NunitoSans_400Regular",
@@ -52,7 +55,7 @@ const ChipButton = ({
   return (
     <Pressable onPress={onPress}>
       <Animated.View
-        style={[theme == "light" ? chipLightViewStyle : darkThemeViewStyle]}
+        style={[theme == "light" ? chipLightViewStyle : chipDarkViewStyle]}
       >
         <Animated.Text
           style={[theme == "light" ? chipLightTextStyle : chipDarkTextStyle]}

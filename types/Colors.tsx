@@ -1,3 +1,4 @@
+// props interface for the Colors which will be used in the theme of the app
 export interface Colors {
   foreground: string;
   background: string;
@@ -7,6 +8,7 @@ export interface Colors {
   searchInputColor: string;
 }
 
+// pre-defined colors for light system theme
 export const LightColors: Colors = {
   foreground: "#484848",
   background: "#fefefe",
@@ -16,6 +18,7 @@ export const LightColors: Colors = {
   searchInputColor: "#f2f2f2",
 };
 
+// pre-defined colors for dark system theme
 export const DarkColors: Colors = {
   foreground: "#fefefe",
   background: "#161616",

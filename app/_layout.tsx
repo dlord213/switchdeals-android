@@ -1,7 +1,12 @@
-import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
-import { TabButton } from "@/components/TabButton";
+import { useEffect } from "react";
 import { StyleSheet, useColorScheme } from "react-native";
+import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
+import { useFonts } from "expo-font";
+import { SplashScreen } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import * as NavigationBar from "expo-navigation-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import {
   NunitoSans_300Light,
   NunitoSans_400Regular,
@@ -9,15 +14,13 @@ import {
   NunitoSans_700Bold,
   NunitoSans_900Black,
 } from "@expo-google-fonts/nunito-sans";
-import { useFonts } from "expo-font";
-import { SplashScreen } from "expo-router";
-import { useEffect } from "react";
+
+import { TabButton } from "@/components/TabButton";
 import { storage } from "@/stores/storage";
 import useTheme from "@/stores/useTheme";
 import { Colors } from "@/types/Colors";
-import { StatusBar } from "expo-status-bar";
-import * as NavigationBar from "expo-navigation-bar";
 
+// queryClient instance for the entire app
 const client = new QueryClient();
 
 export default function Layout() {
@@ -37,6 +40,7 @@ export default function Layout() {
     }
   }, [loaded, error]);
 
+  // this hook is for setting the device's navigation bar color
   useEffect(() => {
     if (colorScheme == "dark") {
       setTheme("dark");
@@ -51,10 +55,12 @@ export default function Layout() {
     return null;
   }
 
+  // this line is for setting the proper value if the app is launched the first time
   if (!storage.contains("wishlists")) {
     storage.set("wishlists", JSON.stringify({ lists: [] }));
   }
 
+  // dynamic stylesheet/theme for the entire Tabs
   const styleTheme = styles(palette);
 
   return (

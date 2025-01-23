@@ -19,8 +19,9 @@ export default function Index() {
   const { width, height } = useWindowDimensions();
   const { palette } = useTheme();
 
-  const [type, setType] = useState("");
+  const [type, setType] = useState(""); // this is for filtering deals by either game or bundle
 
+  // the infinite query for fetching data in the vercel API I made
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ["games", type],
     queryFn: async ({ pageParam = 1 }) => {

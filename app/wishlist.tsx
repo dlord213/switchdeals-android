@@ -14,11 +14,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Page() {
-  const { theme, palette } = useTheme();
+  const { palette } = useTheme();
   const { width, height } = useWindowDimensions();
   const json = storage.getString("wishlists");
   const wishlists = json ? JSON.parse(json) : "{}";
 
+  // if "wishlists" key in the MMKV storage has no values
   if (wishlists.lists.length >= 1) {
     return (
       <SafeAreaView

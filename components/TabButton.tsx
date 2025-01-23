@@ -1,16 +1,15 @@
 import useTheme from "@/stores/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TabTriggerSlotProps } from "expo-router/ui";
-import { ComponentProps, Ref, forwardRef, useEffect } from "react";
+import { ComponentProps, Ref, forwardRef } from "react";
 import { Text, Pressable, View } from "react-native";
 import Animated, {
-  useSharedValue,
   withTiming,
   useAnimatedStyle,
-  Easing,
   withSpring,
 } from "react-native-reanimated";
 
+// component props for the Icon used in the TabButton
 type Icon = ComponentProps<typeof AntDesign>["name"];
 
 export const TabButton = forwardRef(
@@ -24,6 +23,8 @@ export const TabButton = forwardRef(
     ref: Ref<View>
   ) => {
     const { theme } = useTheme();
+
+    // animated view stylesheet for light theme
     const lightAnimatedView = useAnimatedStyle(() => ({
       backgroundColor: isFocused
         ? withTiming("#fafafa")
@@ -31,6 +32,8 @@ export const TabButton = forwardRef(
       paddingHorizontal: isFocused ? withSpring(30) : withSpring(8),
       paddingVertical: 2,
     }));
+
+    // animated view stylesheet for dark theme
     const darkAnimatedView = useAnimatedStyle(() => ({
       backgroundColor: isFocused
         ? withTiming("#242424")
@@ -39,6 +42,7 @@ export const TabButton = forwardRef(
       paddingVertical: 2,
     }));
 
+    // dynamic text colors for the component
     const textTheme =
       theme == "light"
         ? isFocused
@@ -48,6 +52,7 @@ export const TabButton = forwardRef(
         ? { color: "#fafafa" }
         : { color: "#484848" };
 
+    // dynamic icon colors for the component
     const iconTheme =
       theme == "light"
         ? isFocused
