@@ -45,9 +45,11 @@ export default function Layout() {
     if (colorScheme == "dark") {
       setTheme("dark");
       NavigationBar.setBackgroundColorAsync(palette.background);
+      NavigationBar.setVisibilityAsync("hidden");
     } else {
       setTheme("light");
       NavigationBar.setBackgroundColorAsync(palette.foreground);
+      NavigationBar.setVisibilityAsync("hidden");
     }
   }, [colorScheme]);
 

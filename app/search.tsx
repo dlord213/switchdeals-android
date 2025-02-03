@@ -14,21 +14,22 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "expo-router";
 import useTheme from "@/stores/useTheme";
+import useRegion from "@/stores/useRegion";
 
 export default function Page() {
   const { width, height } = useWindowDimensions();
   const { palette } = useTheme();
   const [query, setQuery] = useState(""); // this state is for search queries
+  const { region } = useRegion();
 
   // a query hook for fetching data based on the "query" state above
   const { data, refetch } = useQuery({
-    queryKey: ["search"],
+    queryKey: ["search", region],
     queryFn: async () => {
       try {
         const { data } = await axios.get(
-          `https://switchdeals.vercel.app/api/search?query=${query}&region=us`
+          `https://switchdeals.vercel.app/api/search?query=${query}&region=${region}`
         );
-
         return data;
       } catch (err) {
         return err;

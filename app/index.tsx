@@ -9,27 +9,30 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import ChipButton from "@/components/ChipButton";
 import useTheme from "@/stores/useTheme";
+import { AntDesign } from "@expo/vector-icons";
+import useRegion from "@/stores/useRegion";
+import { Picker } from "@react-native-picker/picker";
+import countries from "@/types/Countries";
 
 export default function Index() {
   const { width, height } = useWindowDimensions();
   const { palette } = useTheme();
+  const pickerRef = useRef();
 
   const [type, setType] = useState(""); // this is for filtering deals by either game or bundle
+  const { region, setRegion } = useRegion();
 
   // the infinite query for fetching data in the vercel API I made
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["games", type],
+    queryKey: ["games", type, region],
     queryFn: async ({ pageParam = 1 }) => {
       const { data } = await axios.get(
-        `https://switchdeals.vercel.app/api/games?page=${pageParam}&type=${type}`
-      );
-      console.log(
-        `https://switchdeals.vercel.app/api/games?page=${pageParam}&type=${type}`
+        `https://switchdeals.vercel.app/api/games?region=${region}&page=${pageParam}&type=${type}`
       );
       return { ...data, next: pageParam + 1 };
     },
@@ -65,6 +68,14 @@ export default function Index() {
         >
           Discounts/Deals
         </Text>
+        <AntDesign
+          name="earth"
+          size={20}
+          color={palette.text}
+          onPress={() => {
+            pickerRef?.current.focus();
+          }}
+        />
       </View>
       <View style={{ flexDirection: "row", gap: 8 }}>
         <ChipButton label="Game" isActive={!type} onPress={() => setType("")} />
@@ -154,6 +165,22 @@ export default function Index() {
           <ActivityIndicator color={palette.text} size={36} />
         </SafeAreaView>
       )}
+      <Picker
+        ref={pickerRef}
+        selectedValue={region}
+        onValueChange={(itemValue, itemIndex) => {
+          setRegion(itemValue);
+        }}
+        style={{ display: "none" }}
+      >
+        {Object.entries(countries).map(([countryName, data]) => (
+          <Picker.Item
+            label={`${countryName} (${data.currency})`}
+            key={data.value}
+            value={data.value}
+          />
+        ))}
+      </Picker>
     </SafeAreaView>
   );
 }

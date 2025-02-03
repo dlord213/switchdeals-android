@@ -18,6 +18,7 @@ import ChipButton from "@/components/ChipButton";
 import useTheme from "@/stores/useTheme";
 import { AntDesign } from "@expo/vector-icons";
 import { storage } from "@/stores/storage";
+import useRegion from "@/stores/useRegion";
 
 export default function Page() {
   const { id } = useLocalSearchParams();
@@ -25,6 +26,7 @@ export default function Page() {
   const [wishlists, setWishlists] = useState({ lists: [] }); // this state is for rendering it on the component and is based on the MMKV "wishlists" key storage
   const [isWishlisted, setIsWishlisted] = useState(false); // this state is to check whether it's wishlisted or not and for rendering the appropriate icon
   const { palette } = useTheme();
+  const { region } = useRegion();
 
   // a query hook that fetches game's data
   const { data } = useQuery({
@@ -32,7 +34,7 @@ export default function Page() {
     queryFn: async () => {
       try {
         const { data } = await axios.get(
-          `https://switchdeals.vercel.app/api/game_details?url=${id}&region=us`
+          `https://switchdeals.vercel.app/api/game_details?url=${id}&region=${region}`
         );
 
         return data;
